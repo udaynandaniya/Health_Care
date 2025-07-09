@@ -93,25 +93,8 @@ Before running this project, make sure you have:
    
    Create a `.env.local` file in the root directory:
    \`\`\`env
-   # Database
-   MONGODB_URI=mongodb://localhost:27017/ruralreach
-   # or for MongoDB Atlas:
-   # MONGODB_URI=mongodb+srv://username:password@cluster.mongodb.net/ruralreach
-
-   # Authentication
-   JWT_SECRET=your-super-secret-jwt-key-here-make-it-long-and-random
-
-   # App Configuration
-   NEXTAUTH_URL=http://localhost:3000
-   NEXTAUTH_SECRET=your-nextauth-secret-key
-
-   # Optional: Email Configuration (for notifications)
-   EMAIL_SERVER_HOST=smtp.gmail.com
-   EMAIL_SERVER_PORT=587
-   EMAIL_SERVER_USER=your-email@gmail.com
-   EMAIL_SERVER_PASSWORD=your-app-password
-   EMAIL_FROM=noreply@ruralreach.com
-   \`\`\`
+   
+ 
 
 4. **Set up the database**
    
