@@ -3,7 +3,7 @@ import jwt from "jsonwebtoken"
 import dbConnect from "@/lib/mongodb"
 import EmergencyAlert from "@/lib/models/EmergencyAlert"
 
-export async function GET(request: NextRequest) {
+export async function POST(request: NextRequest) {
   try {
     const token = request.cookies.get("auth-token")?.value
     if (!token) {
@@ -11,16 +11,23 @@ export async function GET(request: NextRequest) {
     }
 
     const decoded = jwt.verify(token, process.env.JWT_SECRET!) as any
+    const { alertId } = await request.json()
+
     await dbConnect()
 
-    const alerts = await EmergencyAlert.find({ userId: decoded.userId })
-      .populate("acceptedBy", "name")
-      .sort({ createdAt: -1 })
-      .limit(20)
+    const alert = await EmergencyAlert.findOneAndUpdate(
+      { _id: alertId, userId: decoded.userId },
+      { isRead: true },
+      { new: true },
+    )
 
-    return NextResponse.json({ success: true, data: alerts })
+    if (!alert) {
+      return NextResponse.json({ success: false, message: "Alert not found" }, { status: 404 })
+    }
+
+    return NextResponse.json({ success: true, message: "Alert dismissed" })
   } catch (error) {
-    console.error("Error fetching emergency alerts:", error)
+    console.error("Error dismissing alert:", error)
     return NextResponse.json({ success: false, message: "Internal server error" }, { status: 500 })
   }
 }
