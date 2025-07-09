@@ -103,7 +103,14 @@ export default function UserSignupPage() {
       const data = await response.json()
       if (data.success) {
         toast.success("Account created successfully!")
+
+          const isAdmin = data.user?.isAdmin;
+
+        if (isAdmin) {
+    router.push("/admin/dashboard")
+        } else {
         router.push("/user/dashboard")
+        }
       } else {
         toast.error(data.message || "Signup failed")
       }

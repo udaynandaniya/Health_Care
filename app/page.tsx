@@ -1,9 +1,10 @@
 
 
+// //C:\Users\UDAYN\Downloads\healthcare-platform\app\page.tsx
 
 // "use client"
 
-// import { useState, useEffect } from "react"
+// import { useState } from "react"
 // import Link from "next/link"
 // import { motion } from "framer-motion"
 // import {
@@ -19,10 +20,15 @@
 //   Brain,
 //   Thermometer,
 //   Syringe,
+//   Clock,
+//   MapPin,
+//   Phone,
+//   ArrowRight,
 // } from "lucide-react"
 // import { Button } from "@/components/ui/button"
 // import { Card, CardContent } from "@/components/ui/card"
 // import ThemeToggle from "@/components/ThemeToggle"
+// import UserDropdown from "@/components/UserDropdown"
 // import { useAuth } from "@/hooks/useAuth"
 // import { useRouter } from "next/navigation"
 
@@ -43,16 +49,6 @@
 //   const [hoveredCard, setHoveredCard] = useState<string | null>(null)
 //   const { isAuthenticated, user, isLoading } = useAuth()
 //   const router = useRouter()
-
-//   useEffect(() => {
-//     if (!isLoading && isAuthenticated && user) {
-//       if (user.isAdmin) {
-//         router.push("/admin/dashboard")
-//       } else {
-//         router.push(`/${user.role}/dashboard`)
-//       }
-//     }
-//   }, [isAuthenticated, user, isLoading, router])
 
 //   if (isLoading) {
 //     return (
@@ -134,19 +130,19 @@
 //             Home
 //           </Link>
 //           <Link
-//             href="#"
+//             href="#services"
 //             className="text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 font-medium transition-colors"
 //           >
 //             Services
 //           </Link>
 //           <Link
-//             href="#"
+//             href="#about"
 //             className="text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 font-medium transition-colors"
 //           >
 //             About
 //           </Link>
 //           <Link
-//             href="#"
+//             href="#contact"
 //             className="text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 font-medium transition-colors"
 //           >
 //             Contact
@@ -161,16 +157,22 @@
 //           transition={{ duration: 0.6, delay: 0.4 }}
 //         >
 //           <ThemeToggle />
-//           <Link href="/auth/login">
-//             <Button variant="ghost" className="hidden sm:inline-flex font-medium">
-//               Log In
-//             </Button>
-//           </Link>
-//           <Link href="#roles">
-//             <Button className="bg-black dark:bg-white text-white dark:text-black hover:bg-gray-800 dark:hover:bg-gray-200 font-semibold px-6 rounded-full">
-//               Join For Free
-//             </Button>
-//           </Link>
+//           {!isAuthenticated ? (
+//             <>
+//               <Link href="/auth/login">
+//                 <Button variant="ghost" className="hidden sm:inline-flex font-medium">
+//                   Log In
+//                 </Button>
+//               </Link>
+//               <Link href="#roles">
+//                 <Button className="bg-black dark:bg-white text-white dark:text-black hover:bg-gray-800 dark:hover:bg-gray-200 font-semibold px-6 rounded-full">
+//                   Join For Free
+//                 </Button>
+//               </Link>
+//             </>
+//           ) : (
+//             <UserDropdown />
+//           )}
 //         </motion.div>
 //       </header>
 
@@ -221,162 +223,308 @@
 //             better access to medical care.
 //           </motion.p>
 
-//           {/* CTA Buttons */}
+//           {/* CTA Buttons - Only show if user is not authenticated */}
+//           {!isAuthenticated && (
+//             <motion.div
+//               className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16"
+//               initial={{ opacity: 0, y: 30 }}
+//               animate={{ opacity: 1, y: 0 }}
+//               transition={{ duration: 0.8, delay: 1.4 }}
+//             >
+//               <Link href="#roles">
+//                 <Button className="bg-black dark:bg-white text-white dark:text-black hover:bg-gray-800 dark:hover:bg-gray-200 font-semibold px-8 py-3 text-lg rounded-full shadow-lg hover:shadow-xl transition-all duration-300">
+//                   Join For Free
+//                 </Button>
+//               </Link>
+//               <Link href="#services">
+//                 <Button
+//                   variant="outline"
+//                   className="font-semibold px-8 py-3 text-lg rounded-full border-2 hover:bg-gray-50 dark:hover:bg-gray-800 transition-all duration-300 bg-transparent"
+//                 >
+//                   Explore Services
+//                 </Button>
+//               </Link>
+//             </motion.div>
+//           )}
+
+//           {/* Welcome Back Section for Authenticated Users */}
+//           {isAuthenticated && user && (
+//             <motion.div
+//               className="mb-16"
+//               initial={{ opacity: 0, y: 30 }}
+//               animate={{ opacity: 1, y: 0 }}
+//               transition={{ duration: 0.8, delay: 1.4 }}
+//             >
+//               <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl p-8 shadow-xl border border-gray-200 dark:border-gray-700 max-w-2xl mx-auto">
+//                 <h2 className="text-2xl md:text-3xl font-bold mb-4 text-gray-900 dark:text-white">
+//                   Welcome back, {user.name}!
+//                 </h2>
+//                 <p className="text-gray-600 dark:text-gray-300 mb-6">Ready to continue your healthcare journey?</p>
+//                 <Link href={user.isAdmin ? "/admin/dashboard" : `/${user.role}/dashboard`}>
+//                   <Button className="bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white font-semibold px-8 py-3 text-lg rounded-full shadow-lg hover:shadow-xl transition-all duration-300">
+//                     Go to {user.isAdmin ? "Admin" : user.role.charAt(0).toUpperCase() + user.role.slice(1)} Dashboard
+//                     <ArrowRight className="w-5 h-5 ml-2" />
+//                   </Button>
+//                 </Link>
+//               </div>
+//             </motion.div>
+//           )}
+//         </motion.div>
+
+//         {/* Role Selection Cards - Only show if user is not authenticated */}
+//         {!isAuthenticated && (
 //           <motion.div
-//             className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16"
-//             initial={{ opacity: 0, y: 30 }}
+//             id="roles"
+//             className="max-w-6xl mx-auto w-full mb-20"
+//             initial={{ opacity: 0, y: 50 }}
 //             animate={{ opacity: 1, y: 0 }}
-//             transition={{ duration: 0.8, delay: 1.4 }}
+//             transition={{ duration: 0.8, delay: 1.6 }}
 //           >
-//             <Link href="#roles">
-//               <Button className="bg-black dark:bg-white text-white dark:text-black hover:bg-gray-800 dark:hover:bg-gray-200 font-semibold px-8 py-3 text-lg rounded-full shadow-lg hover:shadow-xl transition-all duration-300">
-//                 Join For Free
+//             <h2 className="text-3xl md:text-4xl font-bold text-center mb-4 text-gray-900 dark:text-white">
+//               Choose Your Role
+//             </h2>
+//             <p className="text-gray-600 dark:text-gray-400 text-center mb-12 text-lg">
+//               Join our healthcare community as a patient, medical professional, or healthcare facility
+//             </p>
+
+//             <div className="grid md:grid-cols-3 gap-8 px-4">
+//               {/* Users Card */}
+//               <motion.div whileHover={{ scale: 1.05, y: -10 }} transition={{ type: "spring", stiffness: 300 }}>
+//                 <Card
+//                   className={`relative overflow-hidden cursor-pointer border-2 transition-all duration-300 ${
+//                     hoveredCard === "user"
+//                       ? "border-blue-500 shadow-2xl shadow-blue-500/25"
+//                       : "border-gray-200 dark:border-gray-700 hover:border-blue-300 hover:shadow-xl"
+//                   }`}
+//                   onMouseEnter={() => setHoveredCard("user")}
+//                   onMouseLeave={() => setHoveredCard(null)}
+//                 >
+//                   <CardContent className="p-8 text-center">
+//                     <motion.div
+//                       className="w-20 h-20 bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg"
+//                       whileHover={{ rotate: 360 }}
+//                       transition={{ duration: 0.6 }}
+//                     >
+//                       <Users className="w-10 h-10 text-white" />
+//                     </motion.div>
+//                     <h3 className="text-2xl font-bold mb-4 text-gray-900 dark:text-white">Patients</h3>
+//                     <p className="text-gray-600 dark:text-gray-300 mb-6 leading-relaxed">
+//                       Access healthcare resources, track your wellness journey, and connect with medical professionals
+//                       in your area.
+//                     </p>
+//                     <Link href="/user/signup">
+//                       <Button className="w-full bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white font-semibold py-3 rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl">
+//                         Join as Patient
+//                       </Button>
+//                     </Link>
+//                   </CardContent>
+//                 </Card>
+//               </motion.div>
+
+//               {/* Doctors Card */}
+//               <motion.div whileHover={{ scale: 1.05, y: -10 }} transition={{ type: "spring", stiffness: 300 }}>
+//                 <Card
+//                   className={`relative overflow-hidden cursor-pointer border-2 transition-all duration-300 ${
+//                     hoveredCard === "doctor"
+//                       ? "border-green-500 shadow-2xl shadow-green-500/25"
+//                       : "border-gray-200 dark:border-gray-700 hover:border-green-300 hover:shadow-xl"
+//                   }`}
+//                   onMouseEnter={() => setHoveredCard("doctor")}
+//                   onMouseLeave={() => setHoveredCard(null)}
+//                 >
+//                   <CardContent className="p-8 text-center">
+//                     <motion.div
+//                       className="w-20 h-20 bg-gradient-to-br from-green-500 to-green-600 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg"
+//                       whileHover={{ rotate: 360 }}
+//                       transition={{ duration: 0.6 }}
+//                     >
+//                       <UserCheck className="w-10 h-10 text-white" />
+//                     </motion.div>
+//                     <h3 className="text-2xl font-bold mb-4 text-gray-900 dark:text-white">Doctors</h3>
+//                     <p className="text-gray-600 dark:text-gray-300 mb-6 leading-relaxed">
+//                       Provide medical guidance, connect with patients remotely, and share your expertise with rural
+//                       communities.
+//                     </p>
+//                     <Link href="/doctor/signup">
+//                       <Button className="w-full bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white font-semibold py-3 rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl">
+//                         Join as Doctor
+//                       </Button>
+//                     </Link>
+//                   </CardContent>
+//                 </Card>
+//               </motion.div>
+
+//               {/* Hospitals Card */}
+//               <motion.div whileHover={{ scale: 1.05, y: -10 }} transition={{ type: "spring", stiffness: 300 }}>
+//                 <Card
+//                   className={`relative overflow-hidden cursor-pointer border-2 transition-all duration-300 ${
+//                     hoveredCard === "hospital"
+//                       ? "border-purple-500 shadow-2xl shadow-purple-500/25"
+//                       : "border-gray-200 dark:border-gray-700 hover:border-purple-300 hover:shadow-xl"
+//                   }`}
+//                   onMouseEnter={() => setHoveredCard("hospital")}
+//                   onMouseLeave={() => setHoveredCard(null)}
+//                 >
+//                   <CardContent className="p-8 text-center">
+//                     <motion.div
+//                       className="w-20 h-20 bg-gradient-to-br from-purple-500 to-purple-600 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg"
+//                       whileHover={{ rotate: 360 }}
+//                       transition={{ duration: 0.6 }}
+//                     >
+//                       <Building2 className="w-10 h-10 text-white" />
+//                     </motion.div>
+//                     <h3 className="text-2xl font-bold mb-4 text-gray-900 dark:text-white">Hospitals</h3>
+//                     <p className="text-gray-600 dark:text-gray-300 mb-6 leading-relaxed">
+//                       Manage your services, handle emergency cases, and extend your reach to underserved communities.
+//                     </p>
+//                     <Link href="/hospital/signup">
+//                       <Button className="w-full bg-gradient-to-r from-purple-500 to-purple-600 hover:from-purple-600 hover:to-purple-700 text-white font-semibold py-3 rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl">
+//                         Join as Hospital
+//                       </Button>
+//                     </Link>
+//                   </CardContent>
+//                 </Card>
+//               </motion.div>
+//             </div>
+
+//             {/* Already have account */}
+//             <motion.div
+//               className="text-center mt-16"
+//               initial={{ opacity: 0 }}
+//               animate={{ opacity: 1 }}
+//               transition={{ duration: 0.8, delay: 2 }}
+//             >
+//               <p className="text-gray-600 dark:text-gray-400 mb-4 text-lg">Already part of our community?</p>
+//               <Link href="/auth/login">
+//                 <Button
+//                   variant="outline"
+//                   className="px-8 py-3 text-lg font-semibold hover:bg-gray-50 dark:hover:bg-gray-800 transition-all duration-300 border-2 rounded-full bg-transparent"
+//                 >
+//                   Sign In to Your Account
+//                 </Button>
+//               </Link>
+//             </motion.div>
+//           </motion.div>
+//         )}
+
+//         {/* Services Section */}
+//         <motion.section
+//           id="services"
+//           className="max-w-6xl mx-auto w-full py-20"
+//           initial={{ opacity: 0, y: 50 }}
+//           animate={{ opacity: 1, y: 0 }}
+//           transition={{ duration: 0.8, delay: 2.2 }}
+//         >
+//           <h2 className="text-3xl md:text-4xl font-bold text-center mb-4 text-gray-900 dark:text-white">
+//             Our Healthcare Services
+//           </h2>
+//           <p className="text-gray-600 dark:text-gray-400 text-center mb-12 text-lg max-w-3xl mx-auto">
+//             Comprehensive healthcare solutions designed to serve rural communities with modern technology and
+//             compassionate care.
+//           </p>
+
+//           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 px-4">
+//             <Card className="p-6 hover:shadow-lg transition-shadow duration-300">
+//               <CardContent className="text-center p-0">
+//                 <div className="w-12 h-12 bg-blue-100 dark:bg-blue-900 rounded-lg flex items-center justify-center mx-auto mb-4">
+//                   <Clock className="w-6 h-6 text-blue-600" />
+//                 </div>
+//                 <h3 className="font-semibold mb-2 text-gray-900 dark:text-white">24/7 Emergency</h3>
+//                 <p className="text-sm text-gray-600 dark:text-gray-300">Round-the-clock emergency medical assistance</p>
+//               </CardContent>
+//             </Card>
+
+//             <Card className="p-6 hover:shadow-lg transition-shadow duration-300">
+//               <CardContent className="text-center p-0">
+//                 <div className="w-12 h-12 bg-green-100 dark:bg-green-900 rounded-lg flex items-center justify-center mx-auto mb-4">
+//                   <Stethoscope className="w-6 h-6 text-green-600" />
+//                 </div>
+//                 <h3 className="font-semibold mb-2 text-gray-900 dark:text-white">Telemedicine</h3>
+//                 <p className="text-sm text-gray-600 dark:text-gray-300">Remote consultations with qualified doctors</p>
+//               </CardContent>
+//             </Card>
+
+//             <Card className="p-6 hover:shadow-lg transition-shadow duration-300">
+//               <CardContent className="text-center p-0">
+//                 <div className="w-12 h-12 bg-purple-100 dark:bg-purple-900 rounded-lg flex items-center justify-center mx-auto mb-4">
+//                   <MapPin className="w-6 h-6 text-purple-600" />
+//                 </div>
+//                 <h3 className="font-semibold mb-2 text-gray-900 dark:text-white">Location Services</h3>
+//                 <p className="text-sm text-gray-600 dark:text-gray-300">Find nearest healthcare facilities</p>
+//               </CardContent>
+//             </Card>
+
+//             <Card className="p-6 hover:shadow-lg transition-shadow duration-300">
+//               <CardContent className="text-center p-0">
+//                 <div className="w-12 h-12 bg-orange-100 dark:bg-orange-900 rounded-lg flex items-center justify-center mx-auto mb-4">
+//                   <Activity className="w-6 h-6 text-orange-600" />
+//                 </div>
+//                 <h3 className="font-semibold mb-2 text-gray-900 dark:text-white">Health Tracking</h3>
+//                 <p className="text-sm text-gray-600 dark:text-gray-300">Monitor your health metrics and progress</p>
+//               </CardContent>
+//             </Card>
+//           </div>
+//         </motion.section>
+
+//         {/* Stats Section */}
+//         <motion.section
+//           className="max-w-6xl mx-auto w-full py-20"
+//           initial={{ opacity: 0, y: 50 }}
+//           animate={{ opacity: 1, y: 0 }}
+//           transition={{ duration: 0.8, delay: 2.4 }}
+//         >
+//           <div className="bg-gradient-to-r from-blue-500 to-purple-600 rounded-3xl p-12 text-white text-center">
+//             <h2 className="text-3xl md:text-4xl font-bold mb-8">Making Healthcare Accessible</h2>
+//             <div className="grid md:grid-cols-4 gap-8">
+//               <div>
+//                 <div className="text-4xl font-bold mb-2">10K+</div>
+//                 <div className="text-blue-100">Patients Served</div>
+//               </div>
+//               <div>
+//                 <div className="text-4xl font-bold mb-2">500+</div>
+//                 <div className="text-blue-100">Healthcare Providers</div>
+//               </div>
+//               <div>
+//                 <div className="text-4xl font-bold mb-2">100+</div>
+//                 <div className="text-blue-100">Partner Hospitals</div>
+//               </div>
+//               <div>
+//                 <div className="text-4xl font-bold mb-2">24/7</div>
+//                 <div className="text-blue-100">Emergency Support</div>
+//               </div>
+//             </div>
+//           </div>
+//         </motion.section>
+
+//         {/* Contact Section */}
+//         <motion.section
+//           id="contact"
+//           className="max-w-6xl mx-auto w-full py-20"
+//           initial={{ opacity: 0, y: 50 }}
+//           animate={{ opacity: 1, y: 0 }}
+//           transition={{ duration: 0.8, delay: 2.6 }}
+//         >
+//           <div className="text-center">
+//             <h2 className="text-3xl md:text-4xl font-bold mb-4 text-gray-900 dark:text-white">
+//               Need Help? We're Here for You
+//             </h2>
+//             <p className="text-gray-600 dark:text-gray-400 mb-8 text-lg max-w-2xl mx-auto">
+//               Our support team is available 24/7 to assist you with any healthcare needs or platform questions.
+//             </p>
+//             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+//               <Button className="bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white font-semibold px-8 py-3 text-lg rounded-full shadow-lg hover:shadow-xl transition-all duration-300">
+//                 <Phone className="w-5 h-5 mr-2" />
+//                 Emergency Hotline
 //               </Button>
-//             </Link>
-//             <Link href="#services">
 //               <Button
 //                 variant="outline"
 //                 className="font-semibold px-8 py-3 text-lg rounded-full border-2 hover:bg-gray-50 dark:hover:bg-gray-800 transition-all duration-300 bg-transparent"
 //               >
-//                 Explore Services
+//                 Contact Support
 //               </Button>
-//             </Link>
-//           </motion.div>
-//         </motion.div>
-
-//         {/* Role Selection Cards */}
-//         <motion.div
-//           id="roles"
-//           className="max-w-6xl mx-auto w-full"
-//           initial={{ opacity: 0, y: 50 }}
-//           animate={{ opacity: 1, y: 0 }}
-//           transition={{ duration: 0.8, delay: 1.6 }}
-//         >
-//           <h2 className="text-3xl md:text-4xl font-bold text-center mb-4 text-gray-900 dark:text-white">
-//             Choose Your Role
-//           </h2>
-//           <p className="text-gray-600 dark:text-gray-400 text-center mb-12 text-lg">
-//             Join our healthcare community as a patient, medical professional, or healthcare facility
-//           </p>
-
-//           <div className="grid md:grid-cols-3 gap-8 px-4">
-//             {/* Users Card */}
-//             <motion.div whileHover={{ scale: 1.05, y: -10 }} transition={{ type: "spring", stiffness: 300 }}>
-//               <Card
-//                 className={`relative overflow-hidden cursor-pointer border-2 transition-all duration-300 ${
-//                   hoveredCard === "user"
-//                     ? "border-blue-500 shadow-2xl shadow-blue-500/25"
-//                     : "border-gray-200 dark:border-gray-700 hover:border-blue-300 hover:shadow-xl"
-//                 }`}
-//                 onMouseEnter={() => setHoveredCard("user")}
-//                 onMouseLeave={() => setHoveredCard(null)}
-//               >
-//                 <CardContent className="p-8 text-center">
-//                   <motion.div
-//                     className="w-20 h-20 bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg"
-//                     whileHover={{ rotate: 360 }}
-//                     transition={{ duration: 0.6 }}
-//                   >
-//                     <Users className="w-10 h-10 text-white" />
-//                   </motion.div>
-//                   <h3 className="text-2xl font-bold mb-4 text-gray-900 dark:text-white">Patients</h3>
-//                   <p className="text-gray-600 dark:text-gray-300 mb-6 leading-relaxed">
-//                     Access healthcare resources, track your wellness journey, and connect with medical professionals in
-//                     your area.
-//                   </p>
-//                   <Link href="/user/signup">
-//                     <Button className="w-full bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white font-semibold py-3 rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl">
-//                       Join as Patient
-//                     </Button>
-//                   </Link>
-//                 </CardContent>
-//               </Card>
-//             </motion.div>
-
-//             {/* Doctors Card */}
-//             <motion.div whileHover={{ scale: 1.05, y: -10 }} transition={{ type: "spring", stiffness: 300 }}>
-//               <Card
-//                 className={`relative overflow-hidden cursor-pointer border-2 transition-all duration-300 ${
-//                   hoveredCard === "doctor"
-//                     ? "border-green-500 shadow-2xl shadow-green-500/25"
-//                     : "border-gray-200 dark:border-gray-700 hover:border-green-300 hover:shadow-xl"
-//                 }`}
-//                 onMouseEnter={() => setHoveredCard("doctor")}
-//                 onMouseLeave={() => setHoveredCard(null)}
-//               >
-//                 <CardContent className="p-8 text-center">
-//                   <motion.div
-//                     className="w-20 h-20 bg-gradient-to-br from-green-500 to-green-600 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg"
-//                     whileHover={{ rotate: 360 }}
-//                     transition={{ duration: 0.6 }}
-//                   >
-//                     <UserCheck className="w-10 h-10 text-white" />
-//                   </motion.div>
-//                   <h3 className="text-2xl font-bold mb-4 text-gray-900 dark:text-white">Doctors</h3>
-//                   <p className="text-gray-600 dark:text-gray-300 mb-6 leading-relaxed">
-//                     Provide medical guidance, connect with patients remotely, and share your expertise with rural
-//                     communities.
-//                   </p>
-//                   <Link href="/doctor/signup">
-//                     <Button className="w-full bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white font-semibold py-3 rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl">
-//                       Join as Doctor
-//                     </Button>
-//                   </Link>
-//                 </CardContent>
-//               </Card>
-//             </motion.div>
-
-//             {/* Hospitals Card */}
-//             <motion.div whileHover={{ scale: 1.05, y: -10 }} transition={{ type: "spring", stiffness: 300 }}>
-//               <Card
-//                 className={`relative overflow-hidden cursor-pointer border-2 transition-all duration-300 ${
-//                   hoveredCard === "hospital"
-//                     ? "border-purple-500 shadow-2xl shadow-purple-500/25"
-//                     : "border-gray-200 dark:border-gray-700 hover:border-purple-300 hover:shadow-xl"
-//                 }`}
-//                 onMouseEnter={() => setHoveredCard("hospital")}
-//                 onMouseLeave={() => setHoveredCard(null)}
-//               >
-//                 <CardContent className="p-8 text-center">
-//                   <motion.div
-//                     className="w-20 h-20 bg-gradient-to-br from-purple-500 to-purple-600 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg"
-//                     whileHover={{ rotate: 360 }}
-//                     transition={{ duration: 0.6 }}
-//                   >
-//                     <Building2 className="w-10 h-10 text-white" />
-//                   </motion.div>
-//                   <h3 className="text-2xl font-bold mb-4 text-gray-900 dark:text-white">Hospitals</h3>
-//                   <p className="text-gray-600 dark:text-gray-300 mb-6 leading-relaxed">
-//                     Manage your services, handle emergency cases, and extend your reach to underserved communities.
-//                   </p>
-//                   <Link href="/hospital/signup">
-//                     <Button className="w-full bg-gradient-to-r from-purple-500 to-purple-600 hover:from-purple-600 hover:to-purple-700 text-white font-semibold py-3 rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl">
-//                       Join as Hospital
-//                     </Button>
-//                   </Link>
-//                 </CardContent>
-//               </Card>
-//             </motion.div>
+//             </div>
 //           </div>
-
-//           {/* Already have account */}
-//           <motion.div
-//             className="text-center mt-16"
-//             initial={{ opacity: 0 }}
-//             animate={{ opacity: 1 }}
-//             transition={{ duration: 0.8, delay: 2 }}
-//           >
-//             <p className="text-gray-600 dark:text-gray-400 mb-4 text-lg">Already part of our community?</p>
-//             <Link href="/auth/login">
-//               <Button
-//                 variant="outline"
-//                 className="px-8 py-3 text-lg font-semibold hover:bg-gray-50 dark:hover:bg-gray-800 transition-all duration-300 border-2 rounded-full bg-transparent"
-//               >
-//                 Sign In to Your Account
-//               </Button>
-//             </Link>
-//           </motion.div>
-//         </motion.div>
+//         </motion.section>
 //       </main>
 
 //       {/* Background decorative elements */}
@@ -388,11 +536,6 @@
 //     </div>
 //   )
 // }
-
-
-
-
-
 
 
 "use client"
@@ -485,7 +628,7 @@ export default function LandingPage() {
       ))}
 
       {/* Header */}
-      <header className="relative z-10 flex items-center justify-between p-6 lg:px-12">
+      <header className="relative z-50 flex items-center justify-between p-6 lg:px-12">
         {/* Logo and Brand */}
         <motion.div
           className="flex items-center space-x-3"
