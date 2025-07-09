@@ -9,8 +9,8 @@
 //   const token = request.cookies.get("auth-token")?.value
 //   const { pathname } = request.nextUrl
 
-//   console.log("🔍 Incoming Path:", pathname)
-//   console.log("🔐 Token:", token ? "[Present]" : "[Missing]")
+//   //console.log("🔍 Incoming Path:", pathname)
+//   //console.log("🔐 Token:", token ? "[Present]" : "[Missing]")
 
 //   const publicRoutes = [
 //     "/",
@@ -25,12 +25,12 @@
 //   ]
 
 //   if (publicRoutes.includes(pathname)) {
-//     console.log("✅ Public route - allowed")
+//     //console.log("✅ Public route - allowed")
 //     return NextResponse.next()
 //   }
 
 //   if (!token) {
-//     console.log("⛔ No token - redirect to /auth/login")
+//     //console.log("⛔ No token - redirect to /auth/login")
 //     return NextResponse.redirect(new URL("/auth/login", request.url))
 //   }
 
@@ -38,29 +38,29 @@
 //     const secret = new TextEncoder().encode(process.env.JWT_SECRET)
 //     const { payload } = await jwtVerify(token, secret)
 
-//     console.log("🧾 Decoded Token Payload:", payload)
+//     //console.log("🧾 Decoded Token Payload:", payload)
 
 //     if (pathname.startsWith("/user/") && payload.role !== "user" && !payload.isAdmin) {
-//       console.log("⛔ Not user or admin - redirect")
+//       //console.log("⛔ Not user or admin - redirect")
 //       return NextResponse.redirect(new URL("/", request.url))
 //     }
 
 //     if (pathname.startsWith("/doctor/") && payload.role !== "doctor" && !payload.isAdmin) {
-//       console.log("⛔ Not doctor or admin - redirect")
+//       //console.log("⛔ Not doctor or admin - redirect")
 //       return NextResponse.redirect(new URL("/", request.url))
 //     }
 
 //     if (pathname.startsWith("/hospital/") && payload.role !== "hospital" && !payload.isAdmin) {
-//       console.log("⛔ Not hospital or admin - redirect")
+//       //console.log("⛔ Not hospital or admin - redirect")
 //       return NextResponse.redirect(new URL("/", request.url))
 //     }
 
 //     if (pathname.startsWith("/admin/") && !payload.isAdmin) {
-//       console.log("⛔ Not admin - redirect")
+//       //console.log("⛔ Not admin - redirect")
 //       return NextResponse.redirect(new URL("/", request.url))
 //     }
 
-//     console.log("✅ Authenticated and authorized - continue")
+//     //console.log("✅ Authenticated and authorized - continue")
 //     return NextResponse.next()
 //   } catch (error) {
 //     console.error("❌ Invalid token:", error)
@@ -81,8 +81,8 @@ export async function middleware(request: NextRequest) {
   const token = request.cookies.get("auth-token")?.value
   const { pathname } = request.nextUrl
 
-  console.log("🔍 Incoming Path:", pathname)
-  console.log("🔐 Token:", token ? "[Present]" : "[Missing]")
+  //console.log("🔍 Incoming Path:", pathname)
+  //console.log("🔐 Token:", token ? "[Present]" : "[Missing]")
 
   const publicRoutes = [
     "/",
@@ -101,41 +101,41 @@ export async function middleware(request: NextRequest) {
   ]
 
   if (publicRoutes.includes(pathname)) {
-    console.log("✅ Public route - allowed")
+    //console.log("✅ Public route - allowed")
     return NextResponse.next()
   }
 
   if (!token) {
-    console.log("⛔ No token - redirect to /auth/login")
+    //console.log("⛔ No token - redirect to /auth/login")
     return NextResponse.redirect(new URL("/auth/login", request.url))
   }
 
   try {
     const secret = new TextEncoder().encode(process.env.JWT_SECRET)
     const { payload } = await jwtVerify(token, secret)
-    console.log("🧾 Decoded Token Payload:", payload)
+    //console.log("🧾 Decoded Token Payload:", payload)
 
     if (pathname.startsWith("/user/") && payload.role !== "user" && !payload.isAdmin) {
-      console.log("⛔ Not user or admin - redirect")
+      //console.log("⛔ Not user or admin - redirect")
       return NextResponse.redirect(new URL("/", request.url))
     }
 
     if (pathname.startsWith("/doctor/") && payload.role !== "doctor" && !payload.isAdmin) {
-      console.log("⛔ Not doctor or admin - redirect")
+      //console.log("⛔ Not doctor or admin - redirect")
       return NextResponse.redirect(new URL("/", request.url))
     }
 
     if (pathname.startsWith("/hospital/") && payload.role !== "hospital" && !payload.isAdmin) {
-      console.log("⛔ Not hospital or admin - redirect")
+      //console.log("⛔ Not hospital or admin - redirect")
       return NextResponse.redirect(new URL("/", request.url))
     }
 
     if (pathname.startsWith("/admin/") && !payload.isAdmin) {
-      console.log("⛔ Not admin - redirect")
+      //console.log("⛔ Not admin - redirect")
       return NextResponse.redirect(new URL("/", request.url))
     }
 
-    console.log("✅ Authenticated and authorized - continue")
+    //console.log("✅ Authenticated and authorized - continue")
     return NextResponse.next()
   } catch (error) {
     console.error("❌ Invalid token:", error)

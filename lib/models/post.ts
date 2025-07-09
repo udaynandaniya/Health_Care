@@ -17,7 +17,7 @@ const postSchema = new mongoose.Schema({
       createdAt: { type: Date, default: Date.now },
     },
   ],
-  isApproved: { type: Boolean, default: false },
+  isApproved: { type: Boolean, default: true },
   createdAt: { type: Date, default: Date.now },
 })
 

@@ -92,7 +92,6 @@ export async function POST(request: NextRequest) {
       process.env.JWT_SECRET!,
       { expiresIn: "30d" },
     )
-   console.log("\n role :", role)
     // Create response
     const response = NextResponse.json({
       success: true,
